@@ -22,13 +22,22 @@ public class ExpansionWorkerApplication {
                 .asyncResponseTimeout(10000) // long polling timeout
                 .build();
 
+
+
         // subscribe to an external task topic as specified in the process
         client.subscribe("DecideOnExpansion")
                 .lockDuration(1000) // the default lock duration is 20 seconds, but you can override this
                 .handler((externalTask, externalTaskService) -> {
                     // Put your business logic here
+                    log.info("Decide where to expand (5 sec)");
 
-                    log.info("Decide where to expand");
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    log.info("After sleep");
+
 
                     Map<String, Object> map = new HashMap<>();
 
@@ -36,10 +45,12 @@ public class ExpansionWorkerApplication {
                     map.put("north", rando.nextBoolean());
 
                     // Complete the task
-                    externalTaskService.handleBpmnError(externalTask, "error");
-                    //externalTaskService.complete(externalTask, map);
+                    //externalTaskService.handleBpmnError(externalTask, "error");
+                    externalTaskService.complete(externalTask, map);
                 })
                 .open();
+
+
     }
 
 

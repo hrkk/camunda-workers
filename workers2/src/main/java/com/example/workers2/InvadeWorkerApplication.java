@@ -6,6 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 @Slf4j
 @RestController
 @SpringBootApplication
@@ -18,13 +22,16 @@ public class InvadeWorkerApplication {
                 .asyncResponseTimeout(10000) // long polling timeout
                 .build();
 
+
         // subscribe to an external task topic as specified in the process
         client.subscribe("InvadeGoul")
                 .lockDuration(1000) // the default lock duration is 20 seconds, but you can override this
                 .handler((externalTask, externalTaskService) -> {
                     // Put your business logic here
+                    Object command = externalTask.getVariable("command");
 
-                    log.info("INVADE GOUL!!!");
+
+                    log.info("INVADE GOUL!!!"+command);
                     // Complete the task
                     externalTaskService.complete(externalTask);
                 })
@@ -36,8 +43,8 @@ public class InvadeWorkerApplication {
                 .lockDuration(1000) // the default lock duration is 20 seconds, but you can override this
                 .handler((externalTask, externalTaskService) -> {
                     // Put your business logic here
-
-                    log.info("INVADE PERSIA!!!");
+                    Object command = externalTask.getVariable("command");
+                    log.info("INVADE PERSIA!!!"+command);
                     // Complete the task
                     externalTaskService.complete(externalTask);
                 })
