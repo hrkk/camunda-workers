@@ -1,30 +1,32 @@
 package com.example.workers2;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@Component
 public class CamundaCommands {
 
-    Collection<ApiJob> all() {
-        Collection<ApiJob> apiJobs = items.values();
-        return apiJobs;
+    Collection<CommandJob> all() {
+        Collection<CommandJob> commandJobs = items.values();
+        return commandJobs;
     }
 
-    ApiJob find(String name) {
+    CommandJob find(String name) {
         return items.get(name);
     }
 
-    private final Map<String, ApiJob> items = new HashMap<String, ApiJob>() {
-        void append(ApiJob job) {
+    private final Map<String, CommandJob> items = new HashMap<String, CommandJob>() {
+        void append(CommandJob job) {
             put(job.getApi(), job);
         }
 
         {
-            append(new ApiJob() {
+            append(new CommandJob() {
                 @Override
                 public String getApi() {
                     return "api1";
@@ -36,7 +38,7 @@ public class CamundaCommands {
                     return "Persia";
                 }
             });
-            append(new ApiJob() {
+            append(new CommandJob() {
                 @Override
                 public String getApi() {
                     return "api2";

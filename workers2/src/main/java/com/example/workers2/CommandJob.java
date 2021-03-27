@@ -1,6 +1,6 @@
 package com.example.workers2;
 
-public interface ApiJob {
+public interface CommandJob {
 
     String getApi();
 

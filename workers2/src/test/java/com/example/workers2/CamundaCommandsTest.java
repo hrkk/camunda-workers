@@ -13,7 +13,7 @@ public class CamundaCommandsTest {
     void test() {
 
         String camundaInput = "input";
-        ApiJob job = calls.find("api1");
+        CommandJob job = calls.find("api1");
 
         assertNotNull(job);
 
@@ -24,8 +24,8 @@ public class CamundaCommandsTest {
     @Test
     void test2() {
         String camundaInput = "input";
-        Collection<ApiJob> all = calls.all();
-        for (ApiJob job: all) {
+        Collection<CommandJob> all = calls.all();
+        for (CommandJob job: all) {
             System.out.println(job.process(camundaInput));
 
         }

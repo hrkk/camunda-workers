@@ -18,28 +18,6 @@ public class InvadeWorkerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(InvadeWorkerApplication.class, args);
-        CamundaCommands camundaCommands = new CamundaCommands();
-        ExternalTaskClient client = ExternalTaskClient.create()
-                .baseUrl("http://localhost:8080/engine-rest")
-                .asyncResponseTimeout(10000) // long polling timeout
-                .build();
-
-
-        // subscribe to an external task topic as specified in the process
-        client.subscribe("Invade")
-                .lockDuration(1000) // the default lock duration is 20 seconds, but you can override this
-                .handler((externalTask, externalTaskService) -> {
-                    // Put your business logic here
-                    String command = externalTask.getVariable("command");
-                    ApiJob apiJob = camundaCommands.find(command.split("api=")[1]);
-
-                    log.info("INVADE "+apiJob.process("Tenant")+"!!!");
-                    // Complete the task
-                    externalTaskService.complete(externalTask);
-                })
-                .open();
-
-
 
         // subscribe to an external task topic as specified in the process
         /*
