@@ -2,6 +2,7 @@ package com.example.workers2;
 
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.client.ExternalTaskClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ public class InvadeWorkerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(InvadeWorkerApplication.class, args);
+        CamundaCommands camundaCommands = new CamundaCommands();
         ExternalTaskClient client = ExternalTaskClient.create()
                 .baseUrl("http://localhost:8080/engine-rest")
                 .asyncResponseTimeout(10000) // long polling timeout
@@ -24,30 +26,35 @@ public class InvadeWorkerApplication {
 
 
         // subscribe to an external task topic as specified in the process
-        client.subscribe("InvadeGoul")
+        client.subscribe("Invade")
                 .lockDuration(1000) // the default lock duration is 20 seconds, but you can override this
                 .handler((externalTask, externalTaskService) -> {
                     // Put your business logic here
-                    Object command = externalTask.getVariable("command");
+                    String command = externalTask.getVariable("command");
+                    ApiJob apiJob = camundaCommands.find(command.split("api=")[1]);
 
-
-                    log.info("INVADE GOUL!!!"+command);
+                    log.info("INVADE "+apiJob.process("Tenant")+"!!!");
                     // Complete the task
                     externalTaskService.complete(externalTask);
                 })
                 .open();
 
 
+
         // subscribe to an external task topic as specified in the process
+        /*
         client.subscribe("InvadePersia")
                 .lockDuration(1000) // the default lock duration is 20 seconds, but you can override this
                 .handler((externalTask, externalTaskService) -> {
                     // Put your business logic here
-                    Object command = externalTask.getVariable("command");
-                    log.info("INVADE PERSIA!!!"+command);
+                    String command = externalTask.getVariable("command");
+                    ApiJob apiJob = camundaCommands.find(command.split("api=")[1]);
+                    log.info("INVADE PERSIA!!!"+apiJob.process("tenant"));
                     // Complete the task
                     externalTaskService.complete(externalTask);
                 })
                 .open();
+
+         */
     }
 }

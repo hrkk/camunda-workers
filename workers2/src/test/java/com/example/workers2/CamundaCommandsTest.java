@@ -1,12 +1,12 @@
-package com.example.workflow;
+package com.example.workers2;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class CamundaCommandsTest {
+public class CamundaCommandsTest {
     CamundaCommands calls = new CamundaCommands();
 
     @Test
@@ -32,5 +32,4 @@ class CamundaCommandsTest {
 
 
     }
-
 }

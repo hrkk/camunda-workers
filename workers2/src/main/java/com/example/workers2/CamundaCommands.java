@@ -1,9 +1,12 @@
-package com.example.workflow;
+package com.example.workers2;
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class CamundaCommands {
 
     Collection<ApiJob> all() {
@@ -29,8 +32,8 @@ public class CamundaCommands {
 
                 @Override
                 public String process(String input) {
-                    System.out.println("process api=" + this.getApi());
-                    return "ok";
+                    log.info("Invade Persia :: api={}", this.getApi());
+                    return "Persia";
                 }
             });
             append(new ApiJob() {
@@ -41,8 +44,8 @@ public class CamundaCommands {
 
                 @Override
                 public String process(String input) {
-                    System.out.println("process api=" + this.getApi());
-                    return "ok";
+                    log.info("Invade Goul :: api={}", this.getApi());
+                    return "Goul";
                 }
             });
         }
