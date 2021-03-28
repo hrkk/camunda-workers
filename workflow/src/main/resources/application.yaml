@@ -22,3 +22,10 @@ camunda.bpm.job-execution.max-wait: 5000
 # cycle
 # 0/15 * * ? * * -> Every 15 seconds
 # 0 * * ? * * -> At second :00 of every minute
+
+# ----------------------------
+#  Rest endpoint security  ---
+# ----------------------------
+spring.security.user:
+  name:     CaptainHook
+  password: Rum

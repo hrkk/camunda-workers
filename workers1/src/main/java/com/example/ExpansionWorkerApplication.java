@@ -2,6 +2,7 @@ package com.example;
 
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.client.ExternalTaskClient;
+import org.camunda.bpm.client.interceptor.auth.BasicAuthProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class ExpansionWorkerApplication {
         ExternalTaskClient client = ExternalTaskClient.create()
                 .baseUrl("http://localhost:8080/engine-rest")
                 .asyncResponseTimeout(10000) // long polling timeout
+                .addInterceptor(new BasicAuthProvider("CaptainHook", "Rum"))
                 .build();
 
 
